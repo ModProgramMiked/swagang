@@ -1,0 +1,258 @@
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+local lplr = game:GetService("Players").LocalPlayer -- will change back soon
+local Simulator = {
+	-- TODO: Add more services in the "SVCs" table
+	["SVCs"] = {
+		["Egg"] = {
+			["Service"] = game:GetService("ReplicatedStorage").Packages["_Index"]["sleitnick_knit@1.4.7"].knit.Services.EggService,
+			["RF"] = game:GetService("ReplicatedStorage").Packages["_Index"]["sleitnick_knit@1.4.7"].knit.Services.EggService.RF
+		}
+	}
+}
+local Window = Rayfield:CreateWindow({
+   Name = "Nuke Simulator",
+   LoadingTitle = "Nuke Simulator Script",
+   LoadingSubtitle = "",
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = "Nuke Simulator", -- Create a custom folder for your hub/game
+      FileName = "Save"
+   },
+   Discord = {
+      Enabled = false,
+      Invite = "ABCD", -- The Discord invite code, do not include discord.gg/
+      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+   }
+})
+function buySilo(siloIndex, Golden)
+	if not Golden then Simulator["SVCs"]["Egg"]["RF"].Buy:InvokeServer("Silo "..tostring(siloIndex)) end
+	if Golden then Simulator["SVCs"]["Egg"]["RF"].Buy:InvokeServer("G Silo "..tostring(siloIndex)) end
+end
+
+
+local Tab = Window:CreateTab("Home", 9792462652) -- Title, Image
+local Section = Tab:CreateSection("Farming")
+
+local Button = Tab:CreateToggle({
+   Name = "Auto Collect",
+   Flag = "AutoCollect",
+   Callback = function(Toggled)
+   getgenv().UselessToggledThingy = Toggled
+   while getgenv().UselessToggledThingy do
+		for _, Coin in pairs(workspace.CurrencyDrops:GetDescendants()) do
+			if Coin:IsA("Part") then
+				Coin.CFrame = game.Players.LocalPlayer.Character.Humanoid.RootPart.CFrame
+			end
+		end
+	task.wait()
+	end
+   end,
+})
+local Section Tab:CreateSection("Boosts")
+local Button = Tab:CreateToggle({
+   Name = "x2 Coins",
+   Flag = "x2Coins",
+   Callback = function(Toggled)
+   getgenv().CoinsX2 = Toggled
+   while getgenv().CoinsX2 do
+	local args = {
+		[1] = "Coins2x",
+	}
+
+	game:GetService("ReplicatedStorage").Packages["_Index"]["sleitnick_knit@1.4.7"].knit.Services.BoostsService.RE.UseBoost:FireServer(unpack(args))
+            task.wait(1200)
+            end
+        end
+})
+local Button = Tab:CreateToggle({
+   Name = "x2 Damage",
+   Flag = "x2Damage",
+   Callback = function(Toggled)
+   getgenv().DamageX2 = Toggled
+   while getgenv().CoinsX2 do
+	local args = {
+		[1] = "Damage2x",
+	}
+
+	game:GetService("ReplicatedStorage").Packages["_Index"]["sleitnick_knit@1.4.7"].knit.Services.BoostsService.RE.UseBoost:FireServer(unpack(args))
+            task.wait(1800)
+            end
+        end
+})
+local Button = Tab:CreateToggle({
+   Name = "x5 Luck",
+   Flag = "x5Luck",
+   Callback = function(Toggled)
+   getgenv().LuckX5 = Toggled
+   while getgenv().CoinsX2 do
+	local args = {
+		[1] = "Extra Luck Boost",
+	}
+
+	game:GetService("ReplicatedStorage").Packages["_Index"]["sleitnick_knit@1.4.7"].knit.Services.BoostsService.RE.UseBoost:FireServer(unpack(args))
+            task.wait(1200)
+            end
+        end
+})
+local Button = Tab:CreateToggle({
+   Name = "x10 Luck",
+   Flag = "x10Luck",
+   Callback = function(Toggled)
+   getgenv().LuckX10 = Toggled
+   while getgenv().CoinsX2 do
+	local args = {
+		[1] = "Extra Luck Boost",
+	}
+
+	game:GetService("ReplicatedStorage").Packages["_Index"]["sleitnick_knit@1.4.7"].knit.Services.BoostsService.RE.UseBoost:FireServer(unpack(args))
+            taskwait(900)
+            end
+        end
+})
+
+local Tab = Window:CreateTab("Teleports", 11457411344)
+local Section = Tab:CreateSection("Normal Teleports")
+local TPs = {
+	["Nuke Shop"] = CFrame.new(3988.44873, 641.029663, -4273.07959),
+	["City"] = CFrame.new(3882.45752, 639.239929, -3726.45703),
+	["Jungle"] = CFrame.new(3958.44873, 639.385681, -3376.07959),
+	["Desert"] = CFrame.new(4354.44873, 641.61731, -3115.07959),
+	["Beach"] = CFrame.new(4897.2959, 639.99939, -2855.52222),
+	["Site Deep Blue"] = CFrame.new(11293.3203, 107.824066, -3085.97412),
+	["Test Lab 33"] = CFrame.new(4341.59717, 642.028137, -2180.91699),
+	["Volcano HQ"] = CFrame.new(4006.1853, 640.937012, -2040.84326),
+	["Moon Base"] = CFrame.new(3648.60986, 670.806091, -2148.40967)
+}
+local DropdownOptions = {}
+for Name, _ in pairs(TPs) do
+	table.insert(DropdownOptions, Name)
+end
+local SelectedTP = "Unknown."
+local TPDropdown = Tab:CreateDropdown({
+   Name = "Teleport to",
+   Options = DropdownOptions,
+   CurrentOption = "Select one...",
+   Flag = "TeleportDropdown", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Opt)
+   	SelectedTP = Opt -- set it to the option.
+   end,
+})
+local TPTo = Tab:CreateButton({
+   Name = "Teleport to selected",
+   Callback = function()
+   if SelectedTP and TPs[SelectedTP] then
+   	lplr.Character.HumanoidRootPart.CFrame = TPs[SelectedTP]
+   	Rayfield:Notify({
+		Title = "Teleport",
+		Content = "Teleported to "..SelectedTP.."!",
+		Duration = 1.2,
+		Image = 9838877673
+	})
+   else
+   	Rayfield:Notify({
+		Title = "Teleport",
+		Content = "Something bad happened.",
+		Duration = 1.2,
+		Image = 9838876113
+	})
+   end
+   end,
+})
+local CodeSvc = game:GetService("ReplicatedStorage").Packages["_Index"]["sleitnick_knit@1.4.7"].knit.Services.CodeService
+local Tab = Window:CreateTab("Misc", 9792634811)
+local Section = Tab:CreateSection("Codes")
+local Codes = {
+	"DOWNINOHIO",
+	"LOTTADAMAGE",
+	"DESTROY",
+	"ALIENGEMS",
+	"MOONBOOST"
+}
+local Button = Tab:CreateButton({
+   Name = "Redeem All Codes",
+   Callback = function()
+	for _, Code in Codes do
+		CodeSvc.RF.VerifyCode:InvokeServer(Code)
+	Rayfield:Notify({
+		Title = "Code Redeemer",
+		Content = "Redeemed/Claimed Code \""..Code.."\"",
+		Duration = 1.5,
+		Image = 9838877673
+	})
+	end
+   end,
+})
+local Tab = Window:CreateTab("Machines", 8177115475) -- Title, Image
+local Section = Tab:CreateSection("Machines (You get teleported to them)")
+
+-- Shiny Machine--
+local Button = Tab:CreateButton({
+   Name = "Shiny Machine",
+   Callback = function()
+	local playerHead = lplr.Character.Head
+	-- @ch, were you trying to figure out if a part was missing by using this instead of ":FindFirstChild()"?
+	-- for i, v in pairs(game:GetService("Workspace").Machines.ShinyMachine:GetDescendants()) do
+	-- 	if v.Name == "TouchInterest" and v.Parent then
+	-- 		lplr.Character.HumanoidRootPart.CFrame = CFrame.new(v.Parent.CFrame.p.X, v.Parent.CFrame.p.Y - (math.abs(lplr.Character.HumanoidRootPart.CFrame.p.Y - v.Parent.CFrame.Y)), v.Parent.CFrame.p.Z)
+	-- end
+	-- end
+	-- my overcomplex code.
+	-- it works anyways.
+	lplr.Character.HumanoidRootPart.CFrame = CFrame.new(v.Parent.CFrame.p.X, v.Parent.CFrame.p.Y - (math.abs(lplr.Character.HumanoidRootPart.CFrame.p.Y - v.Parent.CFrame.Y)), v.Parent.CFrame.p.Z)
+   end,
+})
+local Tab = Window:CreateTab("Silos", 440247999) -- Title, Image
+local selectedSiloIndex = "1"
+local isSelectedSiloGolden = false
+local Toggle = Tab:CreateToggle({
+   Name = "AutoBuy",
+   CurrentValue = false,
+   Flag = "AutoBuy", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Toggled)
+   -- getgenv() bullshit because IDK if it still does the shit that it does in orion where it won't exit the loop
+   getgenv().AutoBuyEnabled = Toggled
+   while getgenv().AutoBuyEnabled do
+	   buySilo(selectedSiloIndex, isSelectedSiloGolden)
+	   -- wait
+	   task.wait()
+   end
+   end,
+})
+local Silo = "Silo "..tostring(selectedSiloIndex)
+local Button = Tab:CreateButton({
+   Name = "Buy Silo",
+   Callback = function()
+	buySilo(selectedSiloIndex, isSelectedSiloGolden)
+	Rayfield:Notify({
+		Title = "Silo buyer",
+		Content = "Bought "..Silo,
+		Duration = 1.5,
+		Image = 9838877673
+	})
+   end,
+})
+
+local SiloDropDown; local SiloDropDown = Tab:CreateDropdown({
+   Name = "Silo to buy",
+   Options = {"Silo 1","Silo 2", "Silo 3","Silo 4", "Silo 5","Silo 6","Silo 7", "Silo 8", "Silo 9","Silo 10","Silo 11","Silo 12", "Silo 13","Silo 14", "Silo 15","Silo 16","Silo 17", "Silo 18", "Silo 19","Silo 20","Silo 21","Silo 22", "Silo 23","Silo 24", "Silo 25","Silo 26","Silo 27", "Silo 28", "Silo 29","Silo 30","Silo 31","Silo 32","Silo 33", "G Silo 1", "G Silo 2", "G Silo 3", "G Silo 4", "G Silo 5", "G Silo 6", "G Silo 7", "G Silo 8", "G Silo 9", "G Silo 10", "G Silo 11", "G Silo 12", "G Silo 13", "G Silo 14", "G Silo 15", "G Silo 16", "G Silo 17", "G Silo 18", "G Silo 19", "G Silo 20", "G Silo 21", "G Silo 22", "G Silo 23", "G Silo 24", "G Silo 25", "G Silo 26", "G Silo 27", "G Silo 28", "G Silo 29", "G Silo 30","G Silo 31","G Silo 32"},
+   CurrentOption = "Choose one...",
+   Flag = "SiloDropdown", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Opt)
+    local siloIndex = string.split(Opt, " ")[2]
+    if Opt:find("G Silo ") then
+    	siloIndex = string.split(Opt, " ")[3]
+		isSelectedSiloGolden = true
+	end
+	if not Opt:find("G Silo ") then
+    	siloIndex = string.split(Opt, " ")[2]
+		isSelectedSiloGolden = false
+	end
+	selectedSiloIndex = siloIndex
+	Rayfield:Notify({
+		Title = "Silo buyer",
+		Content = "You selected Silo"..tostring(siloIndex),
+		Duration = 6.5,
+		Image = 9838877673
+	})
+   end,
+})
