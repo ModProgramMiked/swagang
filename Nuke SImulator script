@@ -190,14 +190,9 @@ local Button = Tab:CreateButton({
    Name = "Shiny Machine",
    Callback = function()
 	local playerHead = lplr.Character.Head
-	-- @ch, were you trying to figure out if a part was missing by using this instead of ":FindFirstChild()"?
 	-- for i, v in pairs(game:GetService("Workspace").Machines.ShinyMachine:GetDescendants()) do
 	-- 	if v.Name == "TouchInterest" and v.Parent then
 	-- 		lplr.Character.HumanoidRootPart.CFrame = CFrame.new(v.Parent.CFrame.p.X, v.Parent.CFrame.p.Y - (math.abs(lplr.Character.HumanoidRootPart.CFrame.p.Y - v.Parent.CFrame.Y)), v.Parent.CFrame.p.Z)
-	-- end
-	-- end
-	-- my overcomplex code.
-	-- it works anyways.
 	lplr.Character.HumanoidRootPart.CFrame = CFrame.new(v.Parent.CFrame.p.X, v.Parent.CFrame.p.Y - (math.abs(lplr.Character.HumanoidRootPart.CFrame.p.Y - v.Parent.CFrame.Y)), v.Parent.CFrame.p.Z)
    end,
 })
