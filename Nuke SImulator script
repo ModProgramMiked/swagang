@@ -69,7 +69,7 @@ local Button = Tab:CreateToggle({
    Flag = "x2Damage",
    Callback = function(Toggled)
    getgenv().DamageX2 = Toggled
-   while getgenv().CoinsX2 do
+   while getgenv().DamageX2 do
 	local args = {
 		[1] = "Damage2x",
 	}
@@ -84,7 +84,7 @@ local Button = Tab:CreateToggle({
    Flag = "x5Luck",
    Callback = function(Toggled)
    getgenv().LuckX5 = Toggled
-   while getgenv().CoinsX2 do
+   while getgenv().LuckX5 do
 	local args = {
 		[1] = "Extra Luck Boost",
 	}
@@ -99,7 +99,7 @@ local Button = Tab:CreateToggle({
    Flag = "x10Luck",
    Callback = function(Toggled)
    getgenv().LuckX10 = Toggled
-   while getgenv().CoinsX2 do
+   while getgenv().LuckX10 do
 	local args = {
 		[1] = "Extra Luck Boost",
 	}
