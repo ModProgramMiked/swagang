@@ -101,7 +101,7 @@ local Button = Tab:CreateToggle({
    getgenv().LuckX10 = Toggled
    while getgenv().LuckX10 do
 	local args = {
-		[1] = "Extra Luck Boost",
+		[1] = "Crazy Luck Boost",
 	}
 
 	game:GetService("ReplicatedStorage").Packages["_Index"]["sleitnick_knit@1.4.7"].knit.Services.BoostsService.RE.UseBoost:FireServer(unpack(args))
