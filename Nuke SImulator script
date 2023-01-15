@@ -105,7 +105,7 @@ local Button = Tab:CreateToggle({
 	}
 
 	game:GetService("ReplicatedStorage").Packages["_Index"]["sleitnick_knit@1.4.7"].knit.Services.BoostsService.RE.UseBoost:FireServer(unpack(args))
-            taskwait(900)
+            task.wait(900)
             end
         end
 })
